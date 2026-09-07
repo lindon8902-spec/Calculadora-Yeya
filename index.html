@@ -1,1 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Calculadora Lo del Boli</title>
 
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(180deg, #fff7e6, #f4f4f4);
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      height: 100%;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .logo {
+      width: 200px;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: 26px;
+      color: #d35400;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    form {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 420px;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+
+    button {
+      margin-top: 15px;
+      width: 100%;
+      padding: 12px;
+      background: #d35400;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #b84300;
+    }
+
+    .resultado {
+      margin-top: 20px;
+      padding: 10px;
+      background: #f9f9f9;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+    }
+
+    .resultado p {
+      margin: 5px 0;
+      color: #333;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <!-- Logo Lo del Boli -->
+    <img src="logo-lo-del-boli.png" alt="Logo Lo del Boli" class="logo" />
+
+    <h1>Calculadora de Costo y Ganancia</h1>
+
+    <form id="calcForm">
+      <label for="costoBase">Costo base</label>
+      <input type="number" id="costoBase" placeholder="Ej: 10" step="0.01" />
+
+      <label for="envio">Envío</label>
+      <input type="number" id="envio" placeholder="Ej: 2" step="0.01" />
+
+      <label for="empaque">Empaque</label>
+      <input type="number" id="empaque" placeholder="Ej: 0.5" step="0.01" />
+
+      <label for="comision">Comisión plataforma</label>
+      <input type="number" id="comision" placeholder="Ej: 0.8" step="0.01" />
+
+      <label for="impuestos">Impuestos</label>
+      <input type="number" id="impuestos" placeholder="Ej: 0.7" step="0.01" />
+
+      <label for="otros">Otros gastos</label>
+      <input type="number" id="otros" placeholder="Ej: 0" step="0.01" />
+
+      <label for="precioVenta">Precio de venta</label>
+      <input type="number" id="precioVenta" placeholder="Ej: 18" step="0.01" />
+
+      <button type="button" onclick="calcular()">Calcular</button>
+
+      <div class="resultado" id="resultado">
+        <p><strong>Costo total:</strong> -</p>
+        <p><strong>Ganancia neta:</strong> -</p>
+        <p><strong>Margen de ganancia:</strong> -</p>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    function toNumber(value) {
+      const n = parseFloat(value);
+      return isNaN(n) ? 0 : n;
+    }
+
+    function calcular() {
+      const costoBase   = toNumber(document.getElementById('costoBase').value);
+      const envio       = toNumber(document.getElementById('envio').value);
+      const empaque     = toNumber(document.getElementById('empaque').value);
+      const comision    = toNumber(document.getElementById('comision').value);
+      const impuestos   = toNumber(document.getElementById('impuestos').value);
+      const otros       = toNumber(document.getElementById('otros').value);
+      const precioVenta = toNumber(document.getElementById('precioVenta').value);
+
+      const gastosTotales = envio + empaque + comision + impuestos + otros;
+      const costoTotal = costoBase + gastosTotales;
+      const gananciaNeta = precioVenta - costoTotal;
+      const margen = precioVenta > 0 ? (gananciaNeta / precioVenta) * 100 : 0;
+
+      const resultadoDiv = document.getElementById('resultado');
+      resultadoDiv.innerHTML = `
+        <p><strong>Costo total:</strong> ${costoTotal.toFixed(2)}</p>
+        <p><strong>Ganancia neta:</strong> ${gananciaNeta.toFixed(2)}</p>
+        <p><strong>Margen de ganancia:</strong> ${margen.toFixed(2)}%</p>
+      `;
+    }
+  </script>
+
+</body>
+</html>
